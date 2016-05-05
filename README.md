@@ -13,10 +13,10 @@ numerical codes and the analysis of their outputs.
 It is in an early stage of development, but the intended functionality looks
 something like:
 
-'''python
+```python
 import unitless
 u = unitless.System('CGS')
 print u.meters_per_second
 print u.exajoules_per_gigayear
 print u.pounds_per_centimeter_second2
-'''
+```
