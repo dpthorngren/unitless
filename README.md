@@ -15,7 +15,7 @@ something like:
 
 ```python
 import unitless
-u = unitless.System('CGS')
+u = unitless.Unit_System('CGS')
 print u.meters_per_second
 print u.exajoules_per_gigayear
 print u.pounds_per_centimeter_second2

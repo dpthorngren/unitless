@@ -61,6 +61,7 @@ cdef class Unit_System:
 
         # Masses (in grams)
         self.gram = 1.0
+        self.pound = 453.592
         self.mNeptune = 1.0241e29
         self.mJupiter = 1.89813e30
         self.mEarth = 5.97219e27
@@ -69,7 +70,6 @@ cdef class Unit_System:
         self.mSaturn = 5.68319e29
 
         # Distances (in centimeters)
-        self.cm = 1.0
         self.meter = 100.0
         self.mile = 160934.0
         self.au = 1.496e13
@@ -100,7 +100,6 @@ cdef class Unit_System:
         self.barye = 1.0
         self.bar = 1e6
         self.pascal = 10.
-        self.gigapascal = 1e10
 
         # Specific entropy (in erg / g K)
         self.kboltzPerBaryon = 8.3145e7

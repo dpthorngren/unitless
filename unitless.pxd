@@ -24,13 +24,13 @@ cdef class Unit_System:
         readonly double stefanBoltzmann
         readonly double boltzmann
         readonly double gram
+        readonly double pound
         readonly double mNeptune
         readonly double mJupiter
         readonly double mUranus
         readonly double mEarth
         readonly double mSaturn
         readonly double mProton
-        readonly double cm
         readonly double meter
         readonly double mile
         readonly double au
@@ -39,7 +39,6 @@ cdef class Unit_System:
         readonly double rNeptune
         readonly double rEarth
         readonly double rSaturn
-        readonly double ml
         readonly double liter
         readonly double lSun
         readonly double newton
@@ -50,7 +49,6 @@ cdef class Unit_System:
         readonly double barye
         readonly double bar
         readonly double pascal
-        readonly double gigapascal
         readonly double kboltzPerBaryon
         readonly double kJperGramKelvin
         readonly double year
