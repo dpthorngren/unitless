@@ -1,24 +1,38 @@
 cdef class Unit_System:
+    def __call__(self,target):
+        if type(target) is not str:
+            raise TypeError("Units must be described in strings.")
+        if '_per_' in target:
+            i = target.find('_per_')
+            return self(target[:i])/self(target[i+5:])
+        cdef double result = 1.0
+        target = target.split('_')
+        for unit in target:
+            if unit[-1].isdigit():
+                if unit[-2].isdigit():
+                    raise NotImplementedError("One digit powers only. Sorry.")
+                result *= self(unit[:-1]) ** int(unit[-1])
+                continue
+            if unit in self._members:
+                result *= self.__getattribute__(unit)
+                continue
+            if unit.endswith('s') and unit[:-1] in self._members:
+                result *= self.__getattribute__(unit[:-1])
+                continue
+            for prefix in self._prefixes:
+                if unit.startswith(prefix):
+                    result *= (self.__getattribute__(prefix) *
+                               self.__getattribute__(unit[len(prefix):]))
+                    break
+            else:
+                raise AttributeError("Unit \"%s\" not understood."%unit)
+        return result
 
-    def __getattr__(self,name):
-        name = name.replace('_in_','_to_')
-        if '_to_' in name:
-            if name.count('_to_') != 1:
-                raise AttributeError("At most one _to_ and/or _in_ is allowed.")
-            i = name.find('_to_')
-            return (self.__getattribute__(name[:i]) /
-                    self.__getattribute__(name[i+4:]))
-        if not name.endswith('_'):
-            name = name.lstrip('_')
-        if name.startswith('per'):
-            return 1.0 / self.__getattribute__(name[3:])
-        for i in self.members:
-            if i == name:
-                return self.__getattribute__(name)
-            if name.startswith(i):
-                return (super().__getattribute__(i) *
-                        self.__getattribute__(name[len(i):]))
-        raise AttributeError("Unit \"%s\" not understood."%name)
+    def __getattr__(self,attribute):
+        # Do not try to interpret private attributes
+        if attribute.startswith('_') or attribute.endswith('_'):
+            raise AttributeError
+        return self(attribute)
 
     def __cinit__(Unit_System self):
         # Constants (in CGS)
@@ -99,4 +113,5 @@ cdef class Unit_System:
         self.hour = 3600.0
 
         # List of attributes
-        self.members = sorted([i for i in dir(self) if not i.startswith('__')],key=len,reverse=True)
+        self._members = sorted([i for i in dir(self) if not i.startswith('_')],key=len,reverse=True)
+        self._prefixes = ['yocto', 'zepto', 'atto', 'femto', 'pico', 'nano', 'micro', 'milli', 'centi', 'kilo', 'mega', 'giga', 'terra', 'peta', 'exa', 'zetta', 'yotta']

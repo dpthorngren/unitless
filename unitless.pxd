@@ -1,6 +1,7 @@
 cdef class Unit_System:
     cdef:
-        object members
+        list _members
+        list _prefixes
         readonly double yocto
         readonly double zepto
         readonly double atto
