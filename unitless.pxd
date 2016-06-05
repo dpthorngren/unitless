@@ -40,10 +40,10 @@ cdef class Unit_System:
         readonly double rEarth
         readonly double rSaturn
         readonly double liter
+        readonly double gallon
         readonly double lSun
         readonly double newton
         readonly double dyne
-        readonly double ampere
         readonly double joule
         readonly double erg
         readonly double barye
