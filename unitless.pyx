@@ -48,11 +48,11 @@ cdef class Unit_System:
     def _initializeUnits_(self, float massScaling=1.,float lengthScaling=1.,
                           float timeScaling=1.):
         # Compute scaling factors
-        forceScaling = massScaling * lengthScaling / timeScaling**2
-        pressureScaling = forceScaling / lengthScaling**2
-        energyScaling = lengthScaling * forceScaling
-        powerScaling = energyScaling / timeScaling
-        spEntropyScaling = energyScaling / massScaling
+        cdef float forceScaling = massScaling * lengthScaling / timeScaling**2
+        cdef float pressureScaling = forceScaling / lengthScaling**2
+        cdef float energyScaling = lengthScaling * forceScaling
+        cdef float powerScaling = energyScaling / timeScaling
+        cdef float spEntropyScaling = energyScaling / massScaling
 
         # SI Prefixes
         self.yocto  = 1e-24
