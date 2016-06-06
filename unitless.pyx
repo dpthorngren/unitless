@@ -85,8 +85,8 @@ cdef class Unit_System:
 
         # Distances (default meters)
         self.meter      = lengthScaling * 1.0
-        self.mile       = lengthScaling * 1609.34
-        self.au         = lengthScaling * 1.496e11
+        self.mile       = lengthScaling * 1609.344
+        self.au         = lengthScaling * 149597870700.
         self.rJupiter   = lengthScaling * 6.9911e7
         self.rNeptune   = lengthScaling * 2.4622e7
         self.rUranus    = lengthScaling * 2.5266e7
@@ -94,36 +94,37 @@ cdef class Unit_System:
         self.rSaturn    = lengthScaling * 5.7316e7
 
         # Time (default seconds)
-        self.year       = timeScaling * 3.1556952e7
+        self.year       = timeScaling * 31556952.
         self.second     = timeScaling * 1.0
         self.minute     = timeScaling * 60.0
         self.hour       = timeScaling * 3600.0
+        self.day        = timeScaling * 86400.
 
         # Volume (default cubic meters)
         self.liter      = lengthScaling**3 * .001
         self.gallon     = lengthScaling**3 * .00378541
 
-        # Force (in dyn)
+        # Force (default newtons)
         self.newton     = forceScaling * 1.0
         self.dyne       = forceScaling * 1e-5
 
-        # Pressure (in Ba)
+        # Pressure (default pascals)
         self.pascal     = pressureScaling * 1.
         self.barye      = pressureScaling * .1
         self.bar        = pressureScaling * 1e5
 
-        #Energy (in erg)
+        #Energy (default joules)
         self.joule      = energyScaling * 1.0
         self.erg        = energyScaling * 1e-7
 
-        # Power (in erg/s)
+        # Power (default watts)
         self.lSun       = powerScaling * 3.846e26
 
-        # Specific entropy (in erg / g K)
-        self.kboltzPerBaryon    = spEntropyScaling * 8.3145e-3
-        self.kJperGramKelvin    = spEntropyScaling * 1
+        # Specific entropy (default joules / kg K)
+        self.kboltzPerBaryon    = spEntropyScaling * 8.3145e3
+        self.kJperGramKelvin    = spEntropyScaling * 1e6
 
-        # Constants (in CGS)
-        self.G                  = energyScaling * lengthScaling**2 * 6.67259e-8 / massScaling**2
-        self.stefanBoltzmann    = energyScaling * 5.6704e-5 / (lengthScaling**2 * timeScaling)
-        self.boltzmann          = energyScaling * 1.380648e-16
+        # Constants (default SI)
+        self.G                  = lengthScaling**3 * 6.67259e-11 / (massScaling * timeScaling**2)
+        self.stefanBoltzmann    = powerScaling * 5.670367e-8 / lengthScaling**2
+        self.boltzmann          = energyScaling * 1.38064852e-23

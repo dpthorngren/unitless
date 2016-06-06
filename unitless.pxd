@@ -55,3 +55,4 @@ cdef class Unit_System:
         readonly double second
         readonly double minute
         readonly double hour
+        readonly double day
