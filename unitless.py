@@ -134,7 +134,7 @@ class Unit_System:
         self.units['eV']         = energyScaling * 1.60218e-19
 
         # Power (default watts)
-        self.units['lSun']       = powerScaling * 3.846e26
+        self.units['lSun']       = powerScaling * 3.828e26
 
         # Specific entropy (default joules / kg K)
         self.units['kboltzPerBaryon']    = spEntropyScaling * 8.3145e3
