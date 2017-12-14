@@ -79,6 +79,7 @@ class Unit_System:
         self.units['mUranus']    = massScaling * 8.6103e25
         self.units['mEarth']     = massScaling * 5.97219e24
         self.units['mProton']    = massScaling * 1.67262178e-27
+        self.units['mSun']       = massScaling * 1.9885e30
 
         # Distances (default meters)
         self.units['meter']      = lengthScaling * 1.0
@@ -96,6 +97,7 @@ class Unit_System:
         self.units['rNeptune']   = lengthScaling * 2.4622e7
         self.units['rUranus']    = lengthScaling * 2.5266e7
         self.units['rEarth']     = lengthScaling * 0.6371e7
+        self.units['rSun']       = lengthScaling * 6.958e8
         self.units['rBohr']      = lengthScaling * 5.2917721067e-11
 
         # Speed
