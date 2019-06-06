@@ -1,10 +1,10 @@
 class Unit_System:
-    def __call__(self,target):
+    def __call__(self, target):
         if type(target) is not str:
             raise TypeError("Units must be described in strings.")
         if '_per_' in target:
             i = target.find('_per_')
-            return self(target[:i])/self(target[i+5:])
+            return self(target[i+5:])/self(target[:i])
         result = 1.0
         target = target.split('_')
         for unit in target:
@@ -24,33 +24,19 @@ class Unit_System:
                     result *= (self.prefixes[prefix] * self(unit[len(prefix):]))
                     break
             else:
-                raise AttributeError("Unit \"%s\" not understood."%unit)
+                raise AttributeError("Unit \"{}\" not understood.".format(unit))
         return result
 
-    def __getattr__(self,attribute):
+    def __getattr__(self, attribute):
         # Do not try to interpret private attributes
         return self(attribute)
 
+    def __dir__(self):
+        return self.units.keys()
+
     def __init__(self,units="SI"):
-        if units == "SI":
-            self.initializeUnits(1.,1.,1.)
-        elif units == "CGS":
-            self.initializeUnits(1000.,100.,1)
-        else:
-            raise AttributeError("System \"%s\" not recognized."%units)
-
-    def initializeUnits(self, massScaling=1., lengthScaling=1.,
-                          timeScaling=1.):
-        # Compute scaling factors
-        forceScaling = massScaling * lengthScaling / timeScaling**2
-        pressureScaling = forceScaling / lengthScaling**2
-        energyScaling = lengthScaling * forceScaling
-        powerScaling = energyScaling / timeScaling
-        spEntropyScaling = energyScaling / massScaling
-        self.prefixes = {}
-        self.units={}
-
         # SI Prefixes
+        self.prefixes = {}
         self.prefixes['yocto']  = 1e-24
         self.prefixes['zepto']  = 1e-21
         self.prefixes['atto']   = 1e-18
@@ -68,6 +54,22 @@ class Unit_System:
         self.prefixes['exa']    = 1e18
         self.prefixes['zetta']  = 1e21
         self.prefixes['yotta']  = 1e24
+        self.units={}
+        if units == "SI":
+            self.initializeUnits(1.,1.,1.)
+        elif units == "CGS":
+            self.initializeUnits(1000.,100.,1)
+        else:
+            raise AttributeError("System \"%s\" not recognized."%units)
+
+    def initializeUnits(self, massScaling=1., lengthScaling=1.,
+                          timeScaling=1.):
+        # Compute scaling factors
+        forceScaling = massScaling * lengthScaling / timeScaling**2
+        pressureScaling = forceScaling / lengthScaling**2
+        energyScaling = lengthScaling * forceScaling
+        powerScaling = energyScaling / timeScaling
+        spEntropyScaling = energyScaling / massScaling
 
         # Masses (default kilograms)
         self.units['gram']       = massScaling * .001
@@ -137,6 +139,9 @@ class Unit_System:
 
         # Power (default watts)
         self.units['lSun']       = powerScaling * 3.828e26
+
+        # Flux (default Watts/m^2)
+        self.units['fEarth']     = powerScaling * 1362. / (lengthScaling**2)
 
         # Specific entropy (default joules / kg K)
         self.units['kboltzPerBaryon']    = spEntropyScaling * 8.3145e3
