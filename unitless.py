@@ -2,9 +2,12 @@ class Unit_System:
     def __call__(self, target):
         if type(target) is not str:
             raise TypeError("Units must be described in strings.")
+        if '_in_a_' in target:
+            i = target.find('_in_a_')
+            return self(target[i+6:]) / self(target[:i])
         if '_per_' in target:
             i = target.find('_per_')
-            return self(target[i+5:])/self(target[:i])
+            return self(target[:i]) / self(target[i+5:])
         result = 1.0
         target = target.split('_')
         for unit in target:
@@ -34,7 +37,7 @@ class Unit_System:
     def __dir__(self):
         return self.units.keys()
 
-    def __init__(self,units="SI"):
+    def __init__(self, units="SI"):
         # SI Prefixes
         self.prefixes = {}
         self.prefixes['yocto']  = 1e-24
@@ -56,14 +59,13 @@ class Unit_System:
         self.prefixes['yotta']  = 1e24
         self.units={}
         if units == "SI":
-            self.initializeUnits(1.,1.,1.)
+            self.initializeUnits(1., 1., 1.)
         elif units == "CGS":
-            self.initializeUnits(1000.,100.,1)
+            self.initializeUnits(1000., 100., 1)
         else:
             raise AttributeError("System \"%s\" not recognized."%units)
 
-    def initializeUnits(self, massScaling=1., lengthScaling=1.,
-                          timeScaling=1.):
+    def initializeUnits(self, massScaling=1., lengthScaling=1., timeScaling=1.):
         # Compute scaling factors
         forceScaling = massScaling * lengthScaling / timeScaling**2
         pressureScaling = forceScaling / lengthScaling**2
@@ -153,20 +155,20 @@ class Unit_System:
         self.units['boltzmann']          = energyScaling * 1.38064852e-23
         self.units['gasConstant']        = energyScaling * 8.3144598
 
-    def fahrenheitToCelsius(self,x):
+    def fahrenheitToCelsius(self, x):
         return (x-32.)*5./9.
 
-    def celsiusToFahrenheit(self,x):
+    def celsiusToFahrenheit(self, x):
         return x*9./5. + 32.
 
-    def celsiusToKelvin(self,x):
+    def celsiusToKelvin(self, x):
         return x + 273.15
 
-    def kelvinToCelsius(self,x):
+    def kelvinToCelsius(self, x):
         return x - 273.15
 
-    def fahrenheitToKelvin(self,x):
+    def fahrenheitToKelvin(self, x):
         return (x-32.)*5./9. + 273.15
 
-    def kelvinToFahrenheit(self,x):
+    def kelvinToFahrenheit(self, x):
         return (x-273.15)*9./5. + 32.
